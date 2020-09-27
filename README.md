@@ -1,1 +1,1 @@
-# Rust Web API example application
+# Rust Web API Example Application
