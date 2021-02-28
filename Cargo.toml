@@ -1,7 +1,7 @@
 [package]
 name = "zero2prod"
 version = "0.1.0"
-authors = ["fulstaph <bokovikov.g@wildberries.ru>"]
+authors = ["fulstaph <fulstaph@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -16,6 +16,18 @@ name = "app"
 actix-web = "3.0.2"
 actix-rt = "1.1.1"
 serde = { version = "1", features = ["derive"]}
+
+[dependencies.sqlx]
+version = "0.4.2"
+default-features = false
+features = [
+    "macros",
+    "postgres",
+    "uuid",
+    "chrono",
+    "migrate",
+    "runtime-actix-rustls"
+]
 
 [dev-dependencies]
 reqwest = "0.10.8"
