@@ -36,3 +36,5 @@ export DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@0.0.0.0:${DB_PORT}/${DB
 sqlx database create
 
 sqlx migrate run
+
+>&2 echo "Postgres has been migrated, ready to go!"
