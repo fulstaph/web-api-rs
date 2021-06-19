@@ -2,7 +2,7 @@ use std::net::TcpListener;
 use zero2prod::startup::run;
 use zero2prod::config::get_config;
 
-#[actix_rt::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let configuration = get_config().expect("failed to read config");
 
