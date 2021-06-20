@@ -17,7 +17,7 @@ pub async fn subscribe(
     connection: web::Data<Arc<PgPool>>
 ) -> Result<HttpResponse, HttpResponse> {
     let request_id = Uuid::new_v4();
-    log::info!("request_id {} - saving new subscriber '{}':'{}' details in the database",
+    tracing::info!("request_id {} - saving new subscriber '{}':'{}' details in the database",
         request_id,
         form.name,
         form.email
@@ -35,11 +35,11 @@ pub async fn subscribe(
         .execute(connection.get_ref().deref())
         .await
         .map_err(|e| {
-            log::error!("request_id {} - failed to execute query: {:?}", request_id, e);
+            tracing::error!("request_id {} - failed to execute query: {:?}", request_id, e);
             HttpResponse::InternalServerError().finish()
         })?;
 
-    log::info!("request_id {} - new subscriber details have been saved", request_id);
+    tracing::info!("request_id {} - new subscriber details have been saved", request_id);
 
     Ok(HttpResponse::Ok().finish())
 }
