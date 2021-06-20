@@ -1,6 +1,5 @@
 use actix_web::{web, HttpResponse};
 use sqlx::PgPool;
-use std::sync::Arc;
 use uuid::Uuid;
 use chrono::Utc;
 
@@ -21,7 +20,7 @@ pub struct FormData {
 pub async fn subscribe(
     form: web::Form<FormData>,
     // retrieving a connection from the application state
-    pool: web::Data<Arc<PgPool>>
+    pool: web::Data<PgPool>
 ) -> Result<HttpResponse, HttpResponse> {
     insert_subscriber(&pool, &form)
         .await

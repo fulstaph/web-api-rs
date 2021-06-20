@@ -1,0 +1,8 @@
+application:
+  port: 8000
+database:
+  port: 5432
+  username: "postgres"
+  password: "password"
+  name: "newsletter"
+  connection_timeout: 2

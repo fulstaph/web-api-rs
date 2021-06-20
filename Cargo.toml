@@ -38,7 +38,8 @@ features = [
     "uuid",
     "chrono",
     "migrate",
-    "runtime-actix-rustls"
+    "runtime-actix-rustls",
+    "offline"
 ]
 
 [dev-dependencies]

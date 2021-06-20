@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "newsletter", "-U", "postgres" ]
+      interval: 3s
+      retries: 5
+    restart: on-failure
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: newsletter
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgres
+
+  helper:
+    image: helper:latest
+    container_name: helper
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://postgres:password@postgres:5432/newsletter
+    volumes:
+      - ./:/app
+
+  app:
+    image: web-api-rs:latest
+    ports:
+      - 8000:8000
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres:
