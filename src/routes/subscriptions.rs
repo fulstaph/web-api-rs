@@ -1,5 +1,5 @@
-use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Resource};
-use sqlx::{PgConnection, PgPool};
+use actix_web::{web, HttpResponse};
+use sqlx::{PgPool};
 use std::sync::Arc;
 use uuid::Uuid;
 use std::ops::Deref;
@@ -16,6 +16,12 @@ pub async fn subscribe(
     // retrieving a connection from the application state
     connection: web::Data<Arc<PgPool>>
 ) -> Result<HttpResponse, HttpResponse> {
+    let request_id = Uuid::new_v4();
+    log::info!("request_id {} - saving new subscriber '{}':'{}' details in the database",
+        request_id,
+        form.name,
+        form.email
+    );
     sqlx::query!(
         r#"
         INSERT INTO subscriptions (id, email, name, subscribed_at)
@@ -29,8 +35,11 @@ pub async fn subscribe(
         .execute(connection.get_ref().deref())
         .await
         .map_err(|e| {
-            eprintln!("failed to execute query: {}", e);
+            log::error!("request_id {} - failed to execute query: {:?}", request_id, e);
             HttpResponse::InternalServerError().finish()
         })?;
+
+    log::info!("request_id {} - new subscriber details have been saved", request_id);
+
     Ok(HttpResponse::Ok().finish())
 }

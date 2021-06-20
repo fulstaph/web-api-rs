@@ -1,6 +1,4 @@
 //! src/config.rs
-
-use config::*;
 #[derive(serde::Deserialize)]
 pub struct Settings {
     pub database: DatabaseSettings,
