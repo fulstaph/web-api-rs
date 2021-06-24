@@ -1,6 +1,6 @@
 .env
 target/
 tests/
-Dockerfile
+build/Dockerfile
 scripts/
 migrations/

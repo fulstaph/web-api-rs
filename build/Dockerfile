@@ -30,6 +30,6 @@ RUN apt-get update -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /app/target/release/app app
-COPY config config
+COPY ../config config
 ENV APP_ENVIRONMENT production
 ENTRYPOINT ["./app"]
